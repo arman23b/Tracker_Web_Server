@@ -1,0 +1,73 @@
+package web;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+import models.User;
+
+/**
+ * Servlet implementation class AddUser
+ */
+@WebServlet("/add_user")
+public class AddUser extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String body = request.getParameter("data");
+		response.setStatus(HttpServletResponse.SC_OK);
+		if (body != null) {
+			JSONObject obj = (JSONObject) JSONValue.parse(body);
+			User user = new User();
+			String username = (String) obj.get("username");
+			String password = (String) obj.get("password");
+			String name = (String) obj.get("name");
+			String email = (String) obj.get("email");
+			String phoneNumber = (String) obj.get("phone_number");
+			if (username != null) {
+				user.setUsername(username);
+			} else {
+				response.getWriter().println("{'error' : 'Missing username'}");
+				return;
+			}
+			if (password != null) {
+				user.setPassword(password);
+			} else {
+				response.getWriter().println("{'error' : 'Missing password'}");
+				return;
+			}
+			if (name != null) {
+				user.setName(name);
+			} else {
+				response.getWriter().println("{'error' : 'Missing name'}");
+				return;
+			}
+			if (email != null) {
+				user.setEmail(email);
+			} else {
+				response.getWriter().println("{'error' : 'Missing email'}");
+				return;
+			}
+			if (phoneNumber != null) {
+				user.setPhoneNumber(phoneNumber);
+			} else {
+				response.getWriter()
+						.println("{'error' : 'Missing phone number'}");
+				return;
+			}
+			User.addUser(user);
+			response.getWriter().println("{'error' : 'User added'}");
+		} else {
+			response.getWriter().println("{'error' : 'No data parameter'}");
+		}
+	}
+
+}
