@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
+import database.DatabaseClient;
+
 /**
  * @author bolat
  *
  */
 public class User {
-	
+
 	private String username;
 	private String password;
 	private String name;
@@ -18,10 +20,14 @@ public class User {
 	private ArrayList<Location> locations = new ArrayList<Location>();
 	private ArrayList<String> trackingUsers = new ArrayList<String>();
 	private ArrayList<String> trackeeUsers = new ArrayList<String>();
-	
-	private static ArrayList<User> users = new ArrayList<User>();
+
+	private static DatabaseClient dbClient;
 
 	public User() {
+	}
+
+	public static void setDbClient(DatabaseClient dbClient) {
+		User.dbClient = dbClient;
 	}
 
 	public String getUsername() {
@@ -87,11 +93,12 @@ public class User {
 	public void setTrackeeUsers(ArrayList<String> trackeeUsers) {
 		this.trackeeUsers = trackeeUsers;
 	}
-	
+
 	public void addLocation(Location location) {
 		this.locations.add(location);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public String toJSONString() {
 		JSONObject json = new JSONObject();
 		json.put("username", this.username);
@@ -104,19 +111,13 @@ public class User {
 		json.put("trackee", this.trackeeUsers.toString());
 		return json.toJSONString();
 	}
-	
+
 	public static User getUser(String username) {
-		for (User user : User.users) {
-			if (user.getUsername().equals(username)) {
-				return user;
-			}
-		}
-		return null;
+		return User.dbClient.getUser(username);
 	}
-	
+
 	public static boolean addUser(User user) {
-		User.users.add(user);
-		return true;
+		return User.dbClient.createUser(user);
 	}
 
 }

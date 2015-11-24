@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DatabaseClient;
 import models.User;
 
 /**
@@ -16,9 +17,11 @@ import models.User;
 @WebServlet("/users")
 public class GetUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private DatabaseClient dbClient;
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		this.connectToDatabase();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
@@ -33,6 +36,18 @@ public class GetUser extends HttpServlet {
 		} else {
 			response.getWriter().print("No username provided");
 		}
+	}
+	
+	private void connectToDatabase() {
+		String url = "jdbc:mysql://localhost:3306/tracker";
+		String user = "bolat";
+		String password = "password_18641";
+		this.dbClient = new DatabaseClient(url, user, password);
+		User.setDbClient(this.dbClient);
+	}
+	
+	private void closeDatabase() {
+		this.dbClient.closeConnection();
 	}
 
 }
