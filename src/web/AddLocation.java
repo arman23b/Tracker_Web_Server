@@ -14,6 +14,7 @@ import org.json.simple.JSONValue;
 import database.DatabaseClient;
 import models.Location;
 import models.User;
+import utils.ErrorMessage;
 
 /**
  * Servlet implementation class AddLocation
@@ -21,7 +22,7 @@ import models.User;
 @WebServlet("/add_location")
 public class AddLocation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private DatabaseClient dbClient;
 
 	protected void doPost(HttpServletRequest request,
@@ -38,26 +39,31 @@ public class AddLocation extends HttpServlet {
 			if (username != null) {
 				this.dbClient = new DatabaseClient();
 				if (!User.userExists(username)) {
-					response.getWriter().println("{'error' : 'No username found'}");
+					response.getWriter().println(ErrorMessage
+							.print(ErrorMessage.Type.USER_NOT_FOUND));
 					this.dbClient.closeConnection();
 					return;
 				}
 			} else {
-				response.getWriter().println("{'error' : 'Missing username'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.USERNAME_MISSING));
 				return;
 			}
 			if (latitude == null) {
-				response.getWriter().println("{'error' : 'Missing latitude'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.LATITUDE_MISSING));
 				this.dbClient.closeConnection();
 				return;
 			}
 			if (longitude == null) {
-				response.getWriter().println("{'error' : 'Missing longitude'}");
+				response.getWriter().println(ErrorMessage
+						.print(ErrorMessage.Type.LONGITUDE_MISSING));
 				this.dbClient.closeConnection();
 				return;
 			}
 			if (timestamp == null) {
-				response.getWriter().println("{'error' : 'Missing timestamp'}");
+				response.getWriter().println(ErrorMessage
+						.print(ErrorMessage.Type.TIMESTAMP_MISSING));
 				this.dbClient.closeConnection();
 				return;
 			}
@@ -67,9 +73,11 @@ public class AddLocation extends HttpServlet {
 			location.setUsername(username);
 			Location.addLocation(location);
 			this.dbClient.closeConnection();
-			response.getWriter().println("{'error' : 'Location added'}");
+			response.getWriter()
+					.println(ErrorMessage.print(ErrorMessage.Type.NO_ERROR));
 		} else {
-			response.getWriter().println("{'error' : 'No data parameter'}");
+			response.getWriter().println(
+					ErrorMessage.print(ErrorMessage.Type.DATA_MISSING));
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import models.Location;
 import models.User;
@@ -58,6 +59,10 @@ public class DatabaseClient {
 	
 	public boolean createLocation(Location location) {
 		return this.createClient.createLocation(location);
+	}
+	
+	public ArrayList<Location> getLocations(String username) {
+		return this.getClient.getLocations(username);
 	}
 
 	public void closeConnection() {

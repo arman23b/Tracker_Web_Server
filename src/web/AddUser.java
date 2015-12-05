@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import models.User;
+import utils.ErrorMessage;
 
 /**
  * Servlet implementation class AddUser
@@ -35,38 +36,44 @@ public class AddUser extends HttpServlet {
 			if (username != null) {
 				user.setUsername(username);
 			} else {
-				response.getWriter().println("{'error' : 'Missing username'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.USERNAME_MISSING));
 				return;
 			}
 			if (password != null) {
 				user.setPassword(password);
 			} else {
-				response.getWriter().println("{'error' : 'Missing password'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.PASSWORD_MISSING));
 				return;
 			}
 			if (name != null) {
 				user.setName(name);
 			} else {
-				response.getWriter().println("{'error' : 'Missing name'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.NAME_MISSING));
 				return;
 			}
 			if (email != null) {
 				user.setEmail(email);
 			} else {
-				response.getWriter().println("{'error' : 'Missing email'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.EMAIL_MISSING));
 				return;
 			}
 			if (phoneNumber != null) {
 				user.setPhoneNumber(phoneNumber);
 			} else {
-				response.getWriter()
-						.println("{'error' : 'Missing phone number'}");
+				response.getWriter().println(
+						ErrorMessage.print(ErrorMessage.Type.PHONE_MISSING));
 				return;
 			}
 			User.addUser(user);
-			response.getWriter().println("{'error' : 'User added'}");
+			response.getWriter()
+					.println(ErrorMessage.print(ErrorMessage.Type.NO_ERROR));
 		} else {
-			response.getWriter().println("{'error' : 'No data parameter'}");
+			response.getWriter().println(
+					ErrorMessage.print(ErrorMessage.Type.DATA_MISSING));
 		}
 	}
 
