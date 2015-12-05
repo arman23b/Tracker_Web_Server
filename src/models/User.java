@@ -90,21 +90,30 @@ public class User {
 		return User.dbClient.createUser(user);
 	}
 
+	public static boolean relationExists(String username,
+			String trackingUsername) {
+		return User.dbClient.relationExists(username, trackingUsername);
+	}
+
 	public static boolean addRelation(String username,
 			String trackingUsername) {
 		return User.dbClient.createRelation(username, trackingUsername);
 	}
-	
+
 	public static ArrayList<String> getAllTrackingUsers(String username) {
 		return User.dbClient.getAllTrackingUsers(username);
 	}
-	
+
 	public static ArrayList<String> getAllTrackeeUsers(String username) {
 		return User.dbClient.getAllTrackeeUsers(username);
 	}
-	
+
 	public static boolean deleteUser(String username) {
 		return User.dbClient.deleteUser(username);
+	}
+	
+	public static boolean deleteRelation(String username, String trackingUsername) {
+		return User.dbClient.deleteRelation(username, trackingUsername);
 	}
 
 }

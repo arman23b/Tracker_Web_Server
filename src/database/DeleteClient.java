@@ -18,17 +18,30 @@ public class DeleteClient {
 	public boolean deleteUser(String username) {
 		String query1 = String.format("DELETE FROM users WHERE username='%s';",
 				username);
-		String query2 = String.format("DELETE FROM locations WHERE username='%s';",
-				username);
-		String query3 = String.format("DELETE FROM relations WHERE username='%s';",
-				username);
-		String query4 = String.format("DELETE FROM relations WHERE tracking='%s';",
-				username);
+		String query2 = String
+				.format("DELETE FROM locations WHERE username='%s';", username);
+		String query3 = String
+				.format("DELETE FROM relations WHERE username='%s';", username);
+		String query4 = String
+				.format("DELETE FROM relations WHERE tracking='%s';", username);
 		try {
 			statement.executeUpdate(query1);
 			statement.executeUpdate(query2);
 			statement.executeUpdate(query3);
 			statement.executeUpdate(query4);
+			return true;
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		}
+		return false;
+	}
+
+	public boolean deleteRelation(String username, String trackingUsername) {
+		String query = String.format(
+				"DELETE FROM relations WHERE username='%s' and tracking='%s';",
+				username, trackingUsername);
+		try {
+			statement.executeUpdate(query);
 			return true;
 		} catch (SQLException e) {
 			System.err.println(e.toString());

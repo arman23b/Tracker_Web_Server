@@ -67,20 +67,28 @@ public class DatabaseClient {
 		return this.getClient.getLocations(username);
 	}
 
+	public boolean relationExists(String username, String trackingUsername) {
+		return this.createClient.relationExists(username, trackingUsername);
+	}
+
 	public boolean createRelation(String username, String trackingUsername) {
 		return this.createClient.createRelation(username, trackingUsername);
 	}
-	
+
 	public ArrayList<String> getAllTrackingUsers(String username) {
 		return this.getClient.getAllTrackingUsers(username);
 	}
-	
+
 	public ArrayList<String> getAllTrackeeUsers(String username) {
 		return this.getClient.getAllTrackeeUsers(username);
 	}
-	
+
 	public boolean deleteUser(String username) {
 		return this.deleteClient.deleteUser(username);
+	}
+	
+	public boolean deleteRelation(String username, String trackingUsername) {
+		return this.deleteClient.deleteRelation(username, trackingUsername);
 	}
 
 	public void closeConnection() {

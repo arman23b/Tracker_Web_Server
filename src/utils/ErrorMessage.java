@@ -7,7 +7,7 @@ public class ErrorMessage {
 	public enum Type {
 		USER_NOT_FOUND, USERNAME_MISSING, PASSWORD_MISSING, NAME_MISSING, 
 		EMAIL_MISSING, PHONE_MISSING, LATITUDE_MISSING, LONGITUDE_MISSING, 
-		TIMESTAMP_MISSING, DATA_MISSING, DB_ERROR, NO_ERROR
+		TIMESTAMP_MISSING, DATA_MISSING, DB_ERROR, DOESNT_EXIST, NO_ERROR
 	}
 
 	public ErrorMessage() {
@@ -49,7 +49,10 @@ public class ErrorMessage {
 			json.put(key, "Data is missing");
 			break;
 		case DB_ERROR:
-			json.put(key, "Database Error");
+			json.put(key, "Database error");
+			break;
+		case DOESNT_EXIST:
+			json.put(key, "Doesn't exist");
 			break;
 		case NO_ERROR:
 			json.put(key, "None");
