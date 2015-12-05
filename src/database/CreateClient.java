@@ -54,9 +54,40 @@ public class CreateClient {
 		return false;
 	}
 
+	public boolean createRelation(String username, String trackingUsername) {
+		if (!this.relationExists(username, trackingUsername)) {
+			String query = String.format(
+					"INSERT INTO relations(username, tracking)"
+							+ " VALUES('%s', '%s');",
+					username, trackingUsername);
+			try {
+				statement.executeUpdate(query);
+			} catch (SQLException e) {
+				System.err.println(e.toString());
+			}
+			return true;
+		}
+		return false;
+	}
+
 	public boolean userExists(String username) {
 		String query = String.format("SELECT * FROM users WHERE username='%s';",
 				username);
+		try {
+			resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		}
+		return false;
+	}
+
+	public boolean relationExists(String username, String trackingUsername) {
+		String query = String.format(
+				"SELECT * FROM relations WHERE username='%s' and tracking='%s';",
+				username, trackingUsername);
 		try {
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {

@@ -75,7 +75,7 @@ public class User {
 		json.put("phone_number", this.phoneNumber);
 		return json.toJSONString();
 	}
-	
+
 	public static boolean userExists(String username) {
 		return User.dbClient.userExists(username);
 	}
@@ -86,6 +86,11 @@ public class User {
 
 	public static boolean addUser(User user) {
 		return User.dbClient.createUser(user);
+	}
+
+	public static boolean addRelation(String username,
+			String trackingUsername) {
+		return User.dbClient.createRelation(username, trackingUsername);
 	}
 
 }
