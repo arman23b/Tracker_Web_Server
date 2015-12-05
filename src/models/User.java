@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+
 import org.json.simple.JSONObject;
 
 import database.DatabaseClient;
@@ -91,6 +93,10 @@ public class User {
 	public static boolean addRelation(String username,
 			String trackingUsername) {
 		return User.dbClient.createRelation(username, trackingUsername);
+	}
+	
+	public static ArrayList<String> getAllTrackingUsers(String username) {
+		return User.dbClient.getAllTrackingUsers(username);
 	}
 
 }

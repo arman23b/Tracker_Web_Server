@@ -44,8 +44,8 @@ public class GetClient {
 	}
 
 	public ArrayList<Location> getLocations(String username) {
-		String query = String
-				.format("SELECT * FROM locations WHERE username='%s';", username);
+		String query = String.format(
+				"SELECT * FROM locations WHERE username='%s';", username);
 		try {
 			resultSet = statement.executeQuery(query);
 			ArrayList<Location> locations = new ArrayList<Location>();
@@ -62,7 +62,22 @@ public class GetClient {
 			System.err.println(e.toString());
 		}
 		return null;
+	}
 
+	public ArrayList<String> getAllTrackingUsers(String username) {
+		String query = String.format(
+				"SELECT * FROM relations WHERE username='%s';", username);
+		try {
+			resultSet = statement.executeQuery(query);
+			ArrayList<String> users = new ArrayList<String>();
+			while (resultSet.next()) {
+				users.add(resultSet.getString("tracking"));
+			}
+			return users;
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		}
+		return null;
 	}
 
 }

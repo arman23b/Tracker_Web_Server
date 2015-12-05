@@ -68,6 +68,10 @@ public class DatabaseClient {
 	public boolean createRelation(String username, String trackingUsername) {
 		return this.createClient.createRelation(username, trackingUsername);
 	}
+	
+	public ArrayList<String> getAllTrackingUsers(String username) {
+		return this.getClient.getAllTrackingUsers(username);
+	}
 
 	public void closeConnection() {
 		try {
