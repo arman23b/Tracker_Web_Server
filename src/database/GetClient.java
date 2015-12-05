@@ -79,5 +79,21 @@ public class GetClient {
 		}
 		return null;
 	}
+	
+	public ArrayList<String> getAllTrackeeUsers(String username) {
+		String query = String.format(
+				"SELECT * FROM relations WHERE tracking='%s';", username);
+		try {
+			resultSet = statement.executeQuery(query);
+			ArrayList<String> users = new ArrayList<String>();
+			while (resultSet.next()) {
+				users.add(resultSet.getString("username"));
+			}
+			return users;
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		}
+		return null;
+	}
 
 }

@@ -72,6 +72,10 @@ public class DatabaseClient {
 	public ArrayList<String> getAllTrackingUsers(String username) {
 		return this.getClient.getAllTrackingUsers(username);
 	}
+	
+	public ArrayList<String> getAllTrackeeUsers(String username) {
+		return this.getClient.getAllTrackeeUsers(username);
+	}
 
 	public void closeConnection() {
 		try {

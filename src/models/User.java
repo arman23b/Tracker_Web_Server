@@ -98,5 +98,9 @@ public class User {
 	public static ArrayList<String> getAllTrackingUsers(String username) {
 		return User.dbClient.getAllTrackingUsers(username);
 	}
+	
+	public static ArrayList<String> getAllTrackeeUsers(String username) {
+		return User.dbClient.getAllTrackeeUsers(username);
+	}
 
 }
