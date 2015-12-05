@@ -39,6 +39,11 @@ public class GetUser extends HttpServlet {
 	}
 	
 	private void connectToDatabase() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		String url = "jdbc:mysql://localhost:3306/tracker";
 		String user = "bolat";
 		String password = "password_18641";

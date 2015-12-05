@@ -27,7 +27,6 @@ public class DatabaseClient {
 			statement = connection.createStatement();
 			createClient = new CreateClient(statement, resultSet);
 			getClient = new GetClient(statement, resultSet);
-			System.out.println(this.getClient);
 		} catch (SQLException e) {
 			System.err
 					.println("Cannot connect to the database: " + e.toString());
