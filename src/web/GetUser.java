@@ -21,12 +21,13 @@ public class GetUser extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		this.connectToDatabase();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
 		if (username != null) {
+			this.dbClient = new DatabaseClient();
 			User user = User.getUser(username);
+			this.dbClient.closeConnection();
 			if (user != null) {
 				response.getWriter().print(user.toJSONString());
 			} else {
@@ -36,23 +37,6 @@ public class GetUser extends HttpServlet {
 		} else {
 			response.getWriter().print("No username provided");
 		}
-	}
-	
-	private void connectToDatabase() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		String url = "jdbc:mysql://localhost:3306/tracker";
-		String user = "bolat";
-		String password = "password_18641";
-		this.dbClient = new DatabaseClient(url, user, password);
-		User.setDbClient(this.dbClient);
-	}
-	
-	private void closeDatabase() {
-		this.dbClient.closeConnection();
 	}
 
 }

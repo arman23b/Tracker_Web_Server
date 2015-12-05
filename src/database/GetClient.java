@@ -31,7 +31,7 @@ public class GetClient {
 				user.setPassword(resultSet.getString("password"));
 				user.setName(resultSet.getString("name"));
 				user.setEmail(resultSet.getString("email"));
-				user.setPhoneNumber(resultSet.getString("phone_number"));
+				user.setPhoneNumber(resultSet.getString("phone"));
 				return user;
 			}
 			return null;

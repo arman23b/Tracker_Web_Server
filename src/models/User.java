@@ -111,6 +111,10 @@ public class User {
 		json.put("trackee", this.trackeeUsers.toString());
 		return json.toJSONString();
 	}
+	
+	public static boolean userExists(String username) {
+		return User.dbClient.userExists(username);
+	}
 
 	public static User getUser(String username) {
 		return User.dbClient.getUser(username);

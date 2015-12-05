@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import database.DatabaseClient;
 import models.Location;
 import models.User;
 
@@ -20,6 +21,8 @@ import models.User;
 @WebServlet("/add_location")
 public class AddLocation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private DatabaseClient dbClient;
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -32,11 +35,11 @@ public class AddLocation extends HttpServlet {
 			String longitude = (String) obj.get("longitude");
 			String timestamp = (String) obj.get("timestamp");
 			Location location = new Location();
-			User user;
 			if (username != null) {
-				user = User.getUser(username);
-				if (user == null) {
+				this.dbClient = new DatabaseClient();
+				if (!User.userExists(username)) {
 					response.getWriter().println("{'error' : 'No username found'}");
+					this.dbClient.closeConnection();
 					return;
 				}
 			} else {
@@ -45,20 +48,25 @@ public class AddLocation extends HttpServlet {
 			}
 			if (latitude == null) {
 				response.getWriter().println("{'error' : 'Missing latitude'}");
+				this.dbClient.closeConnection();
 				return;
 			}
 			if (longitude == null) {
 				response.getWriter().println("{'error' : 'Missing longitude'}");
+				this.dbClient.closeConnection();
 				return;
 			}
 			if (timestamp == null) {
 				response.getWriter().println("{'error' : 'Missing timestamp'}");
+				this.dbClient.closeConnection();
 				return;
 			}
 			location.setLatitude(latitude);
 			location.setLongitude(longitude);
 			location.setTimestamp(timestamp);
-			user.addLocation(location);
+			location.setUsername(username);
+			Location.addLocation(location);
+			this.dbClient.closeConnection();
 			response.getWriter().println("{'error' : 'Location added'}");
 		} else {
 			response.getWriter().println("{'error' : 'No data parameter'}");

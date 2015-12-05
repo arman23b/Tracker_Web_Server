@@ -1,5 +1,7 @@
 package models;
 
+import database.DatabaseClient;
+
 /**
  * @author bolat
  *
@@ -9,8 +11,15 @@ public class Location {
 	private String latitude;
 	private String longitude;
 	private String timestamp;
+	private String username;
+	
+	private static DatabaseClient dbClient;
 	
 	public Location() {
+	}
+	
+	public static void setDbClient(DatabaseClient dbClient) {
+		Location.dbClient = dbClient;
 	}
 
 	public String getLatitude() {
@@ -37,6 +46,16 @@ public class Location {
 		this.timestamp = timestamp;
 	}
 	
+	public String getUsername() {
+		return this.username;
+	}
 	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public static boolean addLocation(Location location) {
+		return Location.dbClient.createLocation(location);
+	}
 
 }

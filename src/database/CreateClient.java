@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import models.Location;
 import models.User;
 
 /**
@@ -36,7 +37,24 @@ public class CreateClient {
 		return false;
 	}
 
-	private boolean userExists(String username) {
+	public boolean createLocation(Location location) {
+		if (location != null) {
+			String query = String.format(
+					"INSERT INTO locations(latitude, longitude, timestamp, username)"
+							+ " VALUES('%s', '%s', '%s', '%s');",
+					location.getLatitude(), location.getLongitude(),
+					location.getTimestamp(), location.getUsername());
+			try {
+				statement.executeUpdate(query);
+			} catch (SQLException e) {
+				System.err.println(e.toString());
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean userExists(String username) {
 		String query = String.format("SELECT * FROM users WHERE username='%s';",
 				username);
 		try {
