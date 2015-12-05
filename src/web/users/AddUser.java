@@ -1,4 +1,4 @@
-package web;
+package web.users;
 
 import java.io.IOException;
 

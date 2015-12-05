@@ -25,6 +25,7 @@ public class DatabaseClient {
 
 	private CreateClient createClient;
 	private GetClient getClient;
+	private DeleteClient deleteClient;
 
 	public DatabaseClient() {
 		// Open db connection
@@ -34,6 +35,7 @@ public class DatabaseClient {
 			statement = connection.createStatement();
 			createClient = new CreateClient(statement, resultSet);
 			getClient = new GetClient(statement, resultSet);
+			deleteClient = new DeleteClient(statement);
 			// Set dbClients in models
 			User.setDbClient(this);
 			Location.setDbClient(this);
@@ -75,6 +77,10 @@ public class DatabaseClient {
 	
 	public ArrayList<String> getAllTrackeeUsers(String username) {
 		return this.getClient.getAllTrackeeUsers(username);
+	}
+	
+	public boolean deleteUser(String username) {
+		return this.deleteClient.deleteUser(username);
 	}
 
 	public void closeConnection() {

@@ -102,5 +102,9 @@ public class User {
 	public static ArrayList<String> getAllTrackeeUsers(String username) {
 		return User.dbClient.getAllTrackeeUsers(username);
 	}
+	
+	public static boolean deleteUser(String username) {
+		return User.dbClient.deleteUser(username);
+	}
 
 }

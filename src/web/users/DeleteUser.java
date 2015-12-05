@@ -1,7 +1,6 @@
-package web;
+package web.users;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,11 +12,12 @@ import models.User;
 import utils.ErrorMessage;
 
 /**
- * Servlet implementation class GetUser
+ * Servlet implementation class DeleteUser
  */
-@WebServlet("/users")
-public class GetUser extends HttpServlet {
+@WebServlet("/delete_user")
+public class DeleteUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	private DatabaseClient dbClient;
 
 	protected void doGet(HttpServletRequest request,
@@ -27,14 +27,15 @@ public class GetUser extends HttpServlet {
 		String username = request.getParameter("username");
 		if (username != null) {
 			this.dbClient = new DatabaseClient();
-			User user = User.getUser(username);
-			this.dbClient.closeConnection();
-			if (user != null) {
-				response.getWriter().print(user.toJSONString());
+			if (User.userExists(username)) {
+				User.deleteUser(username);
+				response.getWriter().print(
+						ErrorMessage.print(ErrorMessage.Type.NO_ERROR));
 			} else {
 				response.getWriter().print(
 						ErrorMessage.print(ErrorMessage.Type.USER_NOT_FOUND));
 			}
+			this.dbClient.closeConnection();
 		} else {
 			response.getWriter().print(
 					ErrorMessage.print(ErrorMessage.Type.USERNAME_MISSING));

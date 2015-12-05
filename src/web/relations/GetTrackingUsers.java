@@ -1,4 +1,4 @@
-package web;
+package web.relations;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,15 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 
 import database.DatabaseClient;
-import models.Location;
 import models.User;
 import utils.ErrorMessage;
 
 /**
- * Servlet implementation class GetLocations
+ * Servlet implementation class GetTrackingUsers
  */
-@WebServlet("/locations")
-public class GetLocations extends HttpServlet {
+@WebServlet("/get_tracking_users")
+public class GetTrackingUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private DatabaseClient dbClient;
@@ -34,11 +33,12 @@ public class GetLocations extends HttpServlet {
 		if (username != null) {
 			this.dbClient = new DatabaseClient();
 			if (User.userExists(username)) {
-				ArrayList<Location> locations = Location.getLocations(username);
-				if (locations != null) {
+				ArrayList<String> trackingUsers = User
+						.getAllTrackingUsers(username);
+				if (trackingUsers != null) {
 					JSONArray jsonArray = new JSONArray();
-					for (Location location : locations) {
-						jsonArray.add(location.toJSONString());
+					for (String trackingUsername : trackingUsers) {
+						jsonArray.add(trackingUsername);
 					}
 					response.getWriter().print(jsonArray.toJSONString());
 				} else {

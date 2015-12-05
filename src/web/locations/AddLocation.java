@@ -1,4 +1,4 @@
-package web;
+package web.locations;
 
 import java.io.IOException;
 

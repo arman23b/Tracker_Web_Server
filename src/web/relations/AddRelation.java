@@ -1,4 +1,4 @@
-package web;
+package web.relations;
 
 import java.io.IOException;
 
