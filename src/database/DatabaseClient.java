@@ -26,6 +26,7 @@ public class DatabaseClient {
 	private CreateClient createClient;
 	private GetClient getClient;
 	private DeleteClient deleteClient;
+	private UpdateClient updateClient;
 
 	public DatabaseClient() {
 		// Open db connection
@@ -36,6 +37,7 @@ public class DatabaseClient {
 			createClient = new CreateClient(statement, resultSet);
 			getClient = new GetClient(statement, resultSet);
 			deleteClient = new DeleteClient(statement);
+			updateClient = new UpdateClient(statement);
 			// Set dbClients in models
 			User.setDbClient(this);
 			Location.setDbClient(this);
@@ -83,12 +85,20 @@ public class DatabaseClient {
 		return this.getClient.getAllTrackeeUsers(username);
 	}
 
+	public ArrayList<String> getAllRequests(String username) {
+		return this.getClient.getAllRequests(username);
+	}
+
 	public boolean deleteUser(String username) {
 		return this.deleteClient.deleteUser(username);
 	}
-	
+
 	public boolean deleteRelation(String username, String trackingUsername) {
 		return this.deleteClient.deleteRelation(username, trackingUsername);
+	}
+	
+	public boolean updateRelation(String username, String trackingUsername, int approved) {
+		return this.updateClient.updateRelation(username, trackingUsername, approved);
 	}
 
 	public void closeConnection() {

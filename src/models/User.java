@@ -108,12 +108,23 @@ public class User {
 		return User.dbClient.getAllTrackeeUsers(username);
 	}
 
+	public static ArrayList<String> getAllRequests(String username) {
+		return User.dbClient.getAllRequests(username);
+	}
+
 	public static boolean deleteUser(String username) {
 		return User.dbClient.deleteUser(username);
 	}
-	
-	public static boolean deleteRelation(String username, String trackingUsername) {
+
+	public static boolean deleteRelation(String username,
+			String trackingUsername) {
 		return User.dbClient.deleteRelation(username, trackingUsername);
+	}
+
+	public static boolean updateRelation(String username,
+			String trackingUsername, int approved) {
+		return User.dbClient.updateRelation(username, trackingUsername,
+				approved);
 	}
 
 }

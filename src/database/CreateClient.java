@@ -57,9 +57,9 @@ public class CreateClient {
 	public boolean createRelation(String username, String trackingUsername) {
 		if (!this.relationExists(username, trackingUsername)) {
 			String query = String.format(
-					"INSERT INTO relations(username, tracking)"
-							+ " VALUES('%s', '%s');",
-					username, trackingUsername);
+					"INSERT INTO relations(username, tracking, approved)"
+							+ " VALUES('%s', '%s', %d);",
+					username, trackingUsername, 0);
 			try {
 				statement.executeUpdate(query);
 			} catch (SQLException e) {
