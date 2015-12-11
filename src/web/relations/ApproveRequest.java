@@ -17,7 +17,7 @@ import utils.ErrorMessage;
 /**
  * Servlet implementation class ApproveRequest
  */
-@WebServlet("/approve_request")
+@WebServlet("/add_relation")
 public class ApproveRequest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

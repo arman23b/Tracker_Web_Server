@@ -18,7 +18,7 @@ import utils.ErrorMessage;
 /**
  * Servlet implementation class AddRelation
  */
-@WebServlet("/add_relation")
+@WebServlet("/add_request")
 public class AddRelation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
