@@ -3,9 +3,6 @@ package database;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import models.Location;
-import models.User;
-
 /**
  * @author bolat
  *
@@ -18,7 +15,8 @@ public class UpdateClient {
 		this.statement = statement;
 	}
 
-	public boolean updateRelation(String username, String trackingUsername, int approved) {
+	public boolean updateRelation(String username, String trackingUsername,
+			int approved) {
 		String query = String.format(
 				"UPDATE relations SET approved=%d WHERE username='%s' and tracking='%s';",
 				approved, username, trackingUsername);
