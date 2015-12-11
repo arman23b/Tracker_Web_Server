@@ -12,8 +12,8 @@ import models.User;
  *
  */
 public class CreateClient {
-	
-	private static final int MAX_ROWS = 100;
+
+	private static final int MAX_ROWS_PER_USER = 10;
 
 	private Statement statement;
 	private ResultSet resultSet;
@@ -41,9 +41,11 @@ public class CreateClient {
 
 	public boolean createLocation(Location location) {
 		if (location != null) {
-			int rowCount = this.getRowsCount("locations");
-			if (rowCount >= MAX_ROWS) {
-				this.deleteFirstNLocations(rowCount - MAX_ROWS + 1);
+			int rowCount = this.getRowsCount("locations",
+					location.getUsername());
+			if (rowCount >= MAX_ROWS_PER_USER) {
+				this.deleteFirstNLocations(location.getUsername(),
+						rowCount - MAX_ROWS_PER_USER + 1);
 			}
 			String query = String.format(
 					"INSERT INTO locations(latitude, longitude, timestamp, username)"
@@ -105,8 +107,10 @@ public class CreateClient {
 		return false;
 	}
 
-	private int getRowsCount(String table) {
-		String query = String.format("SELECT COUNT(*) FROM %s;", table);
+	private int getRowsCount(String table, String username) {
+		String query = String.format(
+				"SELECT COUNT(*) FROM %s WHERE username='%s';", table,
+				username);
 		try {
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
@@ -119,10 +123,11 @@ public class CreateClient {
 		return -1;
 	}
 
-	private boolean deleteFirstNLocations(int n) {
+	private boolean deleteFirstNLocations(String username, int n) {
 		if (n >= 1) {
 			String query = String.format(
-					"DELETE FROM locations ORDER BY id ASC LIMIT %d;", n);
+					"DELETE FROM locations WHERE username='%s' ORDER BY id ASC LIMIT %d;",
+					username, n);
 			try {
 				statement.executeUpdate(query);
 				return true;
