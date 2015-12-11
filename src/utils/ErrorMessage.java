@@ -5,8 +5,8 @@ import org.json.simple.JSONObject;
 public class ErrorMessage {
 
 	public enum Type {
-		USER_NOT_FOUND, USERNAME_MISSING, PASSWORD_MISSING, NAME_MISSING, 
-		EMAIL_MISSING, PHONE_MISSING, LATITUDE_MISSING, LONGITUDE_MISSING, 
+		USER_NOT_FOUND, USERNAME_MISSING, USERNAME_PHONE_MISSING, PASSWORD_MISSING, 
+		NAME_MISSING, EMAIL_MISSING, PHONE_MISSING, LATITUDE_MISSING, LONGITUDE_MISSING, 
 		TIMESTAMP_MISSING, DATA_MISSING, DB_ERROR, DOESNT_EXIST, NO_ERROR
 	}
 
@@ -29,6 +29,9 @@ public class ErrorMessage {
 			break;
 		case USERNAME_MISSING:
 			json.put(key, "Username is missing");
+			break;
+		case USERNAME_PHONE_MISSING:
+			json.put(key, "Username or phone is missing");
 			break;
 		case USER_NOT_FOUND:
 			json.put(key, "User is not found");

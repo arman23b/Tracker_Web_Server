@@ -25,9 +25,20 @@ public class GetUser extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
+		String phone = request.getParameter("phone");
 		if (username != null) {
 			this.dbClient = new DatabaseClient();
-			User user = User.getUser(username);
+			User user = User.getUser(username, null);
+			this.dbClient.closeConnection();
+			if (user != null) {
+				response.getWriter().print(user.toJSONString());
+			} else {
+				response.getWriter().print(
+						ErrorMessage.print(ErrorMessage.Type.USER_NOT_FOUND));
+			}
+		} else if (phone != null) {
+			this.dbClient = new DatabaseClient();
+			User user = User.getUser(null, phone);
 			this.dbClient.closeConnection();
 			if (user != null) {
 				response.getWriter().print(user.toJSONString());
@@ -37,7 +48,7 @@ public class GetUser extends HttpServlet {
 			}
 		} else {
 			response.getWriter().print(
-					ErrorMessage.print(ErrorMessage.Type.USERNAME_MISSING));
+					ErrorMessage.print(ErrorMessage.Type.USERNAME_PHONE_MISSING));
 		}
 	}
 

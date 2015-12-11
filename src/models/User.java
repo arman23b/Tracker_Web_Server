@@ -82,8 +82,8 @@ public class User {
 		return User.dbClient.userExists(username);
 	}
 
-	public static User getUser(String username) {
-		return User.dbClient.getUser(username);
+	public static User getUser(String username, String phone) {
+		return User.dbClient.getUser(username, phone);
 	}
 
 	public static boolean addUser(User user) {

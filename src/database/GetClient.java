@@ -22,9 +22,17 @@ public class GetClient {
 		this.resultSet = resultSet;
 	}
 
-	public User getUser(String username) {
-		String query = String.format("SELECT * FROM users WHERE username='%s';",
-				username);
+	public User getUser(String username, String phone) {
+		String query;
+		if (username != null) {
+			query = String.format("SELECT * FROM users WHERE username='%s';",
+					username);
+		} else if (phone != null) {
+			query = String.format("SELECT * FROM users WHERE phone='%s';",
+					phone);
+		} else {
+			return null;
+		}
 		try {
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {

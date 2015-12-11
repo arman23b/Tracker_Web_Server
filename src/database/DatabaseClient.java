@@ -57,8 +57,8 @@ public class DatabaseClient {
 		return this.createClient.userExists(username);
 	}
 
-	public User getUser(String username) {
-		return this.getClient.getUser(username);
+	public User getUser(String username, String phone) {
+		return this.getClient.getUser(username, phone);
 	}
 
 	public boolean createLocation(Location location) {
@@ -96,9 +96,11 @@ public class DatabaseClient {
 	public boolean deleteRelation(String username, String trackingUsername) {
 		return this.deleteClient.deleteRelation(username, trackingUsername);
 	}
-	
-	public boolean updateRelation(String username, String trackingUsername, int approved) {
-		return this.updateClient.updateRelation(username, trackingUsername, approved);
+
+	public boolean updateRelation(String username, String trackingUsername,
+			int approved) {
+		return this.updateClient.updateRelation(username, trackingUsername,
+				approved);
 	}
 
 	public void closeConnection() {
