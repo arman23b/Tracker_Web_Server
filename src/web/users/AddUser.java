@@ -37,6 +37,14 @@ public class AddUser extends HttpServlet {
 			String email = (String) obj.get("email");
 			String phoneNumber = (String) obj.get("phone_number");
 			if (username != null) {
+				this.dbClient = new DatabaseClient();
+				boolean userExists = User.userExists(username);
+				this.dbClient.closeConnection();
+				if (userExists) {
+					response.getWriter().println(
+							ErrorMessage.print(ErrorMessage.Type.USER_EXISTS));
+					return;
+				}
 				user.setUsername(username);
 			} else {
 				response.getWriter().println(

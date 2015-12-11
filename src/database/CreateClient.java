@@ -12,6 +12,8 @@ import models.User;
  *
  */
 public class CreateClient {
+	
+	private static final int MAX_ROWS = 100;
 
 	private Statement statement;
 	private ResultSet resultSet;
@@ -39,6 +41,10 @@ public class CreateClient {
 
 	public boolean createLocation(Location location) {
 		if (location != null) {
+			int rowCount = this.getRowsCount("locations");
+			if (rowCount >= MAX_ROWS) {
+				this.deleteFirstNLocations(rowCount - MAX_ROWS + 1);
+			}
 			String query = String.format(
 					"INSERT INTO locations(latitude, longitude, timestamp, username)"
 							+ " VALUES('%s', '%s', '%s', '%s');",
@@ -95,6 +101,35 @@ public class CreateClient {
 			}
 		} catch (SQLException e) {
 			System.err.println(e.toString());
+		}
+		return false;
+	}
+
+	private int getRowsCount(String table) {
+		String query = String.format("SELECT COUNT(*) FROM %s;", table);
+		try {
+			resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				int count = Integer.parseInt(resultSet.getString(1));
+				return count;
+			}
+		} catch (SQLException e) {
+			System.err.println(e.toString());
+		}
+		return -1;
+	}
+
+	private boolean deleteFirstNLocations(int n) {
+		if (n >= 1) {
+			String query = String.format(
+					"DELETE FROM locations ORDER BY id ASC LIMIT %d;", n);
+			try {
+				statement.executeUpdate(query);
+				return true;
+			} catch (SQLException e) {
+				System.err.println(e.toString());
+			}
+			return false;
 		}
 		return false;
 	}

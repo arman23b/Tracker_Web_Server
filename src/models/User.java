@@ -75,6 +75,7 @@ public class User {
 		json.put("name", this.name);
 		json.put("email", this.email);
 		json.put("phone_number", this.phoneNumber);
+		json.put("error", "None");
 		return json.toJSONString();
 	}
 
